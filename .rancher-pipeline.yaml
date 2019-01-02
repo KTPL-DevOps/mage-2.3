@@ -9,6 +9,6 @@ stages:
       registry: index.docker.io
 - name: Deploy
   steps:
-  - {}
+  #- {}
   - applyYamlConfig:
       path: ./deployment.yaml
