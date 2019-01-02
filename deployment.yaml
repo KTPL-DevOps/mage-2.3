@@ -2,25 +2,23 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   annotations:
-    deployment.kubernetes.io/revision: "2"
+    deployment.kubernetes.io/revision: "1"
     field.cattle.io/creatorId: u-rgqwdna44s
-  creationTimestamp: 2019-01-02T06:16:56Z
-  generation: 2
+    field.cattle.io/publicEndpoints: '[{"addresses":["18.185.16.225"],"port":443,"protocol":"HTTPS","serviceName":"p-cv6vj-pipeline:ingress-42275434e1f66e77ad40f937a1304a59","ingressName":"p-cv6vj-pipeline:web","hostname":"shop.test.lafamilia-jo.com","allNodes":true}]'
+  creationTimestamp: null
+  generation: 1
   labels:
     cattle.io/creator: norman
-    workload.user.cattle.io/workloadselector: deployment-p-cv6vj-pipeline-redis
-  name: redis
-  namespace: p-cv6vj-pipeline
-  resourceVersion: "661995"
-  selfLink: /apis/apps/v1beta2/namespaces/p-cv6vj-pipeline/deployments/redis
-  uid: 018c7d59-0e56-11e9-9291-989096c9e181
+    workload.user.cattle.io/workloadselector: deployment-p-cv6vj-pipeline-web
+  name: web
+  selfLink: /apis/apps/v1beta2/namespaces/p-cv6vj-pipeline/deployments/web
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: deployment-p-cv6vj-pipeline-redis
+      workload.user.cattle.io/workloadselector: deployment-p-cv6vj-pipeline-web
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -29,15 +27,24 @@ spec:
   template:
     metadata:
       annotations:
-        cattle.io/timestamp: 2019-01-02T06:24:25Z
+        cattle.io/timestamp: 2018-12-20T13:21:46Z
+        field.cattle.io/ports: '[[{"containerPort":80,"dnsName":"web","kind":"ClusterIP","name":"80tcp02","protocol":"TCP","sourcePort":0}]]'
       creationTimestamp: null
       labels:
-        workload.user.cattle.io/workloadselector: deployment-p-cv6vj-pipeline-redis
+        workload.user.cattle.io/workloadselector: deployment-p-cv6vj-pipeline-web
     spec:
       containers:
-      - image: redis
+      - envFrom:
+        - configMapRef:
+            name: magento-config-map
+            optional: false
+        image: ${CICD_IMAGE}:${CICD_GIT_TAG}
         imagePullPolicy: Always
-        name: redis
+        name: web
+        ports:
+        - containerPort: 80
+          name: 80tcp02
+          protocol: TCP
         resources: {}
         securityContext:
           allowPrivilegeEscalation: false
@@ -51,28 +58,9 @@ spec:
         tty: true
       dnsPolicy: ClusterFirst
       imagePullSecrets:
-      - name: docker-hub
+      - name: dh-lafamilia-jo
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-status:
-  availableReplicas: 1
-  conditions:
-  - lastTransitionTime: 2019-01-02T06:17:07Z
-    lastUpdateTime: 2019-01-02T06:17:07Z
-    message: Deployment has minimum availability.
-    reason: MinimumReplicasAvailable
-    status: "True"
-    type: Available
-  - lastTransitionTime: 2019-01-02T06:16:56Z
-    lastUpdateTime: 2019-01-02T06:24:33Z
-    message: ReplicaSet "redis-5cb9579974" has successfully progressed.
-    reason: NewReplicaSetAvailable
-    status: "True"
-    type: Progressing
-  observedGeneration: 2
-  readyReplicas: 1
-  replicas: 1
-  updatedReplicas: 1
-
+status: {}
