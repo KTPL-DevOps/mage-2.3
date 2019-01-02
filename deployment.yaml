@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: example-web
+  name: web
   labels:
     app: web
 spec:
@@ -15,7 +15,7 @@ spec:
         app: web
     spec:
       imagePullSecrets:
-      - name: docker-hub
+      - name: pipeline-docker-registry
       containers:
       - name: web
         image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
