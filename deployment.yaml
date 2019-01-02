@@ -28,7 +28,7 @@ spec:
         app: web
     spec:
       imagePullSecrets:
-      - name: pipeline-docker-registry
+      - name: docker-hub
       containers:
       - name: web
         image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
