@@ -1,0 +1,78 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+    field.cattle.io/creatorId: u-rgqwdna44s
+  creationTimestamp: 2019-01-02T06:16:56Z
+  generation: 2
+  labels:
+    cattle.io/creator: norman
+    workload.user.cattle.io/workloadselector: deployment-p-cv6vj-pipeline-redis
+  name: redis
+  namespace: p-cv6vj-pipeline
+  resourceVersion: "661995"
+  selfLink: /apis/apps/v1beta2/namespaces/p-cv6vj-pipeline/deployments/redis
+  uid: 018c7d59-0e56-11e9-9291-989096c9e181
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: deployment-p-cv6vj-pipeline-redis
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        cattle.io/timestamp: 2019-01-02T06:24:25Z
+      creationTimestamp: null
+      labels:
+        workload.user.cattle.io/workloadselector: deployment-p-cv6vj-pipeline-redis
+    spec:
+      containers:
+      - image: redis
+        imagePullPolicy: Always
+        name: redis
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: {}
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: docker-hub
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: 2019-01-02T06:17:07Z
+    lastUpdateTime: 2019-01-02T06:17:07Z
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: 2019-01-02T06:16:56Z
+    lastUpdateTime: 2019-01-02T06:24:33Z
+    message: ReplicaSet "redis-5cb9579974" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
+
