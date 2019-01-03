@@ -5,12 +5,12 @@ LABEL maintainer "Kamil Khan"
 COPY rootfs/php.ini /opt/bitnami/php/etc/php.ini
 COPY rootfs/bitnami.conf /bitnami/apache/conf/bitnami/bitnami.conf
 
-#RUN git clone https://github.com/ktpl-kamil/magento2_3.git /opt/bitnami/magento/htdocs \
-#    && cd /opt/bitnami/magento/htdocs \
-#    && composer install \
-#    && composer update \
-#    && echo "123456" \
-#    && php bin/magento deploy:mode:set production
+RUN git clone https://github.com/ktpl-kamil/magento2_3.git /opt/bitnami/magento/htdocs \
+    && cd /opt/bitnami/magento/htdocs \
+    && composer install \
+    && composer update \
+    && echo "123456" \
+    && php bin/magento deploy:mode:set production
 
 RUN find /opt/bitnami/magento/htdocs -type d -print0 | xargs -0 chmod 775 && find /opt/bitnami/magento/htdocs -type f -print0 | xargs -0 chmod 755 /opt/bitnami/magento/htdocs && chown -R bitnami:daemon /opt/bitnami/magento/htdocs && chmod -R 777 /opt/bitnami/magento/htdocs/var
 
