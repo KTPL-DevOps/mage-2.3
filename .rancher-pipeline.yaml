@@ -5,9 +5,5 @@ stages:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: kamil71/${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
-#      pushRemote: true
-#      registry: index.docker.io
-- name: Deploy
-  steps:
-  - applyYamlConfig:
-path: ./deployment.yaml
+      pushRemote: true
+      registry: index.docker.io
